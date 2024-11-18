@@ -1,4 +1,4 @@
-FROM node:16-alpine as build
+FROM node:18-alpine as build
 WORKDIR /app
 COPY . .
 
@@ -8,9 +8,9 @@ ENV VITE_API_URL $VITE_API_URL
 
 RUN echo $VITE_API_URL
 
-RUN npm ci
-RUN npm run build
+RUN yarn install
+RUN yarn run build
 
 FROM socialengine/nginx-spa:latest as deploy
-COPY ./build /app
+COPY --from=build ./dist /app
 RUN chmod -R 777 /app
