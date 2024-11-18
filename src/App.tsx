@@ -8,6 +8,7 @@ import { Login } from './components/Login';
 import { RequireAuth } from './components/RequireAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DropzoneCSV } from './components/Dropzone';
+import { NotFoundPage } from './components/NotFoundPage';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,12 @@ const router = createBrowserRouter([
 						],
 					},
 				],
+			},
+
+			// 404
+			{
+				path: '*',
+				element: <NotFoundPage />,
 			},
 		],
 	},
