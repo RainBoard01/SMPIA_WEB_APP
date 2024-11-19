@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Group, Text, rem } from '@mantine/core';
+import { Code, Group, Loader, Text, rem } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps, MIME_TYPES } from '@mantine/dropzone';
 import { useMutation } from '@tanstack/react-query';
@@ -10,14 +10,17 @@ export function DropzoneCSV(props: Partial<DropzoneProps>) {
 	const [files, setFiles] = useState<File[]>([]);
 	const { auth } = useAuth();
 
-	const sendFiles = useMutation({
+	const {
+		mutate: sendFile,
+		data: results,
+		isPending,
+	} = useMutation({
 		mutationFn: async data =>
 			fetchToAPI(
 				'POST',
 				'/predecir',
 				{
 					accept: 'application/json',
-					// 'Content-Type': 'multipart/form-data',
 					Authorization: `Bearer ${auth.jwt}`,
 				},
 				data
@@ -27,11 +30,11 @@ export function DropzoneCSV(props: Partial<DropzoneProps>) {
 	useEffect(() => {
 		if (files.length > 0) {
 			const formData = new FormData();
-			files.forEach(file => formData.append('files', file));
+			files.forEach(file => formData.append('file', file));
 
-			sendFiles.mutate(formData);
+			sendFile(formData);
 		}
-	}, [files]);
+	}, [files, sendFile]);
 
 	return (
 		<Dropzone
@@ -87,6 +90,12 @@ export function DropzoneCSV(props: Partial<DropzoneProps>) {
 						Attach as many files as you like, each file should not exceed
 						5mb
 					</Text>
+					{isPending && <Loader />}
+					{results && (
+						<Code mt={30} c='green'>
+							{JSON.stringify(results, null, 2)}
+						</Code>
+					)}
 				</div>
 			</Group>
 		</Dropzone>
