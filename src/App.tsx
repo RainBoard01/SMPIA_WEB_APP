@@ -7,8 +7,8 @@ import { AuthProvider } from './context/AuthProvider';
 import { Login } from './components/Login';
 import { RequireAuth } from './components/RequireAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { DropzoneCSV } from './components/Dropzone';
 import { NotFoundPage } from './components/NotFoundPage';
+import { Home } from './routes/Home';
 
 const queryClient = new QueryClient();
 
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 						children: [
 							{
 								path: '/',
-								element: <DropzoneCSV />,
+								element: <Home />,
 							},
 						],
 					},
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
 
 export default function App() {
 	return (
-		<MantineProvider theme={theme}>
+		<MantineProvider theme={theme} defaultColorScheme='light'>
 			<QueryClientProvider client={queryClient}>
 				<AuthProvider>
 					<RouterProvider router={router} />

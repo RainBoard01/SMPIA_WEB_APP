@@ -83,7 +83,7 @@ export function Login() {
 					mt='md'
 					mb={50}
 				>
-					Welcome back to Mantine!
+					Bienvenido(a) a VibraSense AI
 				</Title>
 				<form
 					onSubmit={e => {
