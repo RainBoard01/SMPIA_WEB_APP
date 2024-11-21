@@ -5,6 +5,7 @@ import { useUploadFiles } from '../hooks/useUploadFiles';
 import { Results } from '../components/Results';
 import { parse } from 'papaparse';
 import { useInterval } from '@mantine/hooks';
+import { Mediciones } from '../components/Mediciones';
 
 export type MetadataType = {
 	filename: string;
@@ -96,6 +97,8 @@ export const Home = () => {
 					</Stack>
 				)}
 				{results && <Results data={results} metadata={metadata} />}
+
+				<Mediciones />
 			</Stack>
 		</Center>
 	);

@@ -50,7 +50,7 @@ export function Login() {
 		},
 	});
 
-	const { data: user } = useQuery({
+	const { data: user, isFetching } = useQuery({
 		queryKey: ['user'],
 		queryFn: async () =>
 			await fetchToAPI(
@@ -99,31 +99,43 @@ export function Login() {
 			</Text>
 
 			<Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-				<TextInput
-					label='Nombre de usuario'
-					placeholder='pepito'
-					required
-					onChange={event => setUsername(event.target.value)}
-					value={username}
-					ref={userRef}
-				/>
-				<PasswordInput
-					label='Contraseña'
-					placeholder='contraseñaMuySegura123'
-					required
-					mt='md'
-					onChange={event => setPassword(event.target.value)}
-					value={password}
-				/>
-				<Group justify='space-between' mt='lg'>
-					<Checkbox label='Recordarme' />
-					<Anchor component='button' size='sm'>
-						Olvidaste tu contraseña?
-					</Anchor>
-				</Group>
-				<Button fullWidth mt='xl' onClick={() => login.mutate()}>
-					Ingresar
-				</Button>
+				<form
+					onSubmit={e => {
+						e.preventDefault();
+						login.mutate();
+					}}
+				>
+					<TextInput
+						label='Nombre de usuario'
+						placeholder='pepito'
+						required
+						onChange={event => setUsername(event.target.value)}
+						value={username}
+						ref={userRef}
+					/>
+					<PasswordInput
+						label='Contraseña'
+						placeholder='contraseñaMuySegura123'
+						required
+						mt='md'
+						onChange={event => setPassword(event.target.value)}
+						value={password}
+					/>
+					<Group justify='space-between' mt='lg'>
+						<Checkbox label='Recordarme' />
+						<Anchor component='button' size='sm'>
+							Olvidaste tu contraseña?
+						</Anchor>
+					</Group>
+					<Button
+						loading={login.isPending || isFetching}
+						fullWidth
+						mt='xl'
+						type='submit'
+					>
+						Ingresar
+					</Button>
+				</form>
 			</Paper>
 		</Container>
 	);

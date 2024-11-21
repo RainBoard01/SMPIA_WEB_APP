@@ -1,10 +1,5 @@
 import '@mantine/core/styles.css';
-import {
-	MantineProvider,
-	useMantineColorScheme,
-	useMantineTheme,
-} from '@mantine/core';
-import { theme } from './theme';
+import { useMantineColorScheme, useMantineTheme } from '@mantine/core';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Root from './routes/root';
 import { AuthProvider } from './context/AuthProvider';
@@ -27,7 +22,6 @@ export default function App() {
 					style={{
 						position: 'absolute',
 						top: 0,
-						bottom: 0,
 						left: 0,
 						right: 0,
 						minHeight: '100vh',
