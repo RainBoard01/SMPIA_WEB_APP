@@ -1,5 +1,5 @@
 import { useLocalStorage } from '@mantine/hooks';
-import { createContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, ReactNode } from 'react';
 
 const AuthContext = createContext({});
 

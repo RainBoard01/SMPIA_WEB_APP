@@ -49,7 +49,7 @@ export function Header() {
 	return (
 		<header className={classes.header}>
 			<Container size='md' className={classes.inner}>
-				<Group>
+				<Group gap='xs'>
 					<IconWaveSawTool
 						color={theme.colors[theme.primaryColor][6]}
 						size={32}

@@ -1,4 +1,4 @@
-import { Button, Card, Center, Progress, Stack, Text } from '@mantine/core';
+import { Center, Progress, Stack, Text, useMantineTheme } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { DropzoneCSV } from '../components/DropzoneCSV';
 import { useUploadFiles } from '../hooks/useUploadFiles';
@@ -6,11 +6,21 @@ import { Results } from '../components/Results';
 import { parse } from 'papaparse';
 import { useInterval } from '@mantine/hooks';
 
+export type MetadataType = {
+	filename: string;
+	size: number;
+	last_modified: number;
+	time_elapsed: number;
+	total_rows: number;
+	total_time: number;
+};
+
 export const Home = () => {
 	const [files, setFiles] = useState<File[]>([]);
-	const [metadata, setMetadata] = useState<any>();
+	const [metadata, setMetadata] = useState<MetadataType>();
 	const [msAnalisis, setMsAnalisis] = useState(0);
 	const interval = useInterval(() => setMsAnalisis(s => s + 1), 1);
+	const theme = useMantineTheme();
 
 	const { mutate: sendFile, data: results, isPending } = useUploadFiles();
 
@@ -72,7 +82,11 @@ export const Home = () => {
 							size='xl'
 							fw={900}
 							variant='gradient'
-							gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+							gradient={{
+								from: theme.colors[theme.primaryColor][5],
+								to: 'purple',
+								deg: 90,
+							}}
 						>
 							Analizando los datos...
 						</Text>

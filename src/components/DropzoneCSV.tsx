@@ -1,4 +1,13 @@
-import { Anchor, Button, Card, Loader, Stack, Text, rem } from '@mantine/core';
+import {
+	Anchor,
+	Button,
+	Card,
+	Loader,
+	Stack,
+	Text,
+	rem,
+	useMantineTheme,
+} from '@mantine/core';
 import {
 	IconUpload,
 	IconX,
@@ -15,6 +24,7 @@ export function DropzoneCSV(props: {
 	loading?: boolean;
 	files?: File[];
 }) {
+	const theme = useMantineTheme();
 	return (
 		<Card radius='md' maw='42rem' w='100%' shadow='md' padding={24}>
 			<Stack>
@@ -69,7 +79,7 @@ export function DropzoneCSV(props: {
 											style={{
 												width: rem(52),
 												height: rem(52),
-												color: 'var(--mantine-color-blue-6)',
+												color: theme.colors[theme.primaryColor][5],
 											}}
 											stroke={1.5}
 										/>

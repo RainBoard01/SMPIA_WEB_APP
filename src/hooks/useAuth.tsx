@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
 
 export interface AuthContextType {
@@ -25,7 +25,7 @@ export interface AuthContextType {
 			};
 		};
 	};
-	setAuth: (val: {} | ((prevState: {}) => {})) => void;
+	setAuth: (val: object | ((prevState: object) => object)) => void;
 	logout: () => void;
 }
 

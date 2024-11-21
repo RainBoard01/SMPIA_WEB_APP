@@ -3,7 +3,6 @@ import {
 	Box,
 	Button,
 	Card,
-	Center,
 	ColorSwatch,
 	Container,
 	Divider,
@@ -21,8 +20,14 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { filesize } from 'filesize';
 import { msToTime } from '../lib/msToTime';
 import { getRelativeTime } from '../lib/relativeTime';
+import { ResultsType } from '../hooks/useUploadFiles';
+import { MetadataType } from '../routes/Home';
 
-export const ResultContainer = props => {
+export const ResultContainer = (props: {
+	color: string;
+	title: string;
+	data: string;
+}) => {
 	const { color, title, data } = props;
 	const { colorScheme } = useMantineColorScheme();
 	return (
@@ -48,7 +53,11 @@ export const ResultContainer = props => {
 	);
 };
 
-export const Results = ({ data, metadata }) => {
+export const Results = (props: {
+	data: ResultsType;
+	metadata: MetadataType | undefined;
+}) => {
+	const { data, metadata } = props;
 	const theme = useMantineTheme();
 	const { colorScheme } = useMantineColorScheme();
 	return (
@@ -60,7 +69,7 @@ export const Results = ({ data, metadata }) => {
 						Guardar Análisis
 					</Button>
 				</Group>
-				<SimpleGrid cols={3} spacing='lg'>
+				<SimpleGrid cols={{ base: 1, sm: 3 }} spacing='lg'>
 					<ResultContainer
 						color={
 							data.clase_predominante.startsWith('bal')
@@ -133,8 +142,8 @@ export const Results = ({ data, metadata }) => {
 									withTooltip={false}
 									strokeColor={
 										colorScheme === 'dark'
-											? theme.colors.gray[6]
-											: theme.colors.dark[4]
+											? theme.colors.gray[7]
+											: theme.colors.dark[3]
 									}
 									startAngle={-180 - 45 - 22.5}
 									chartLabel={
@@ -142,7 +151,7 @@ export const Results = ({ data, metadata }) => {
 										'Balanceado'
 									}
 									data={[8, 7, 6, 5, 4, 3, 2, 1].map(peso => ({
-										name: peso,
+										name: `${peso}`,
 										value: 125,
 										color: data.clase_predominante
 											.split('_')[1]
@@ -186,9 +195,11 @@ export const Results = ({ data, metadata }) => {
 												<ColorSwatch
 													color={
 														theme.colors[
-															Object.keys(theme.colors)[
-																i < 7 ? i + 7 : i - 5
-															]
+															i === 0
+																? theme.primaryColor
+																: Object.keys(theme.colors)[
+																		i < 7 ? i + 7 : i - 5
+																  ]
 														][5]
 													}
 												/>
@@ -225,9 +236,11 @@ export const Results = ({ data, metadata }) => {
 									withLabels
 									data={data.clases_detectadas.map((el, i) => ({
 										color: theme.colors[
-											Object.keys(theme.colors)[
-												i < 7 ? i + 7 : i - 5
-											]
+											i === 0
+												? theme.primaryColor
+												: Object.keys(theme.colors)[
+														i < 7 ? i + 7 : i - 5
+												  ]
 										][5],
 										value: el.porcentaje,
 										name: el.clase,

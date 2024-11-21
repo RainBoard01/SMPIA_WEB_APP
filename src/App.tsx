@@ -1,5 +1,9 @@
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import {
+	MantineProvider,
+	useMantineColorScheme,
+	useMantineTheme,
+} from '@mantine/core';
 import { theme } from './theme';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Root from './routes/root';
@@ -12,54 +16,66 @@ import { Home } from './routes/Home';
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
-	{
-		path: '/',
-		element: (
-			<main>
-				<Outlet />
-			</main>
-		),
-		children: [
-			// public routes
-			{
-				path: '/login',
-				element: <Login />,
-			},
-			// protected routes
-			{
-				path: '/',
-				element: <Root />,
-				children: [
-					{
-						element: <RequireAuth allowedRoles={['authenticated']} />,
-						children: [
-							{
-								path: '/',
-								element: <Home />,
-							},
-						],
-					},
-				],
-			},
-
-			// 404
-			{
-				path: '*',
-				element: <NotFoundPage />,
-			},
-		],
-	},
-]);
-
 export default function App() {
+	const theme = useMantineTheme();
+	const { colorScheme } = useMantineColorScheme();
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: (
+				<main
+					style={{
+						position: 'absolute',
+						top: 0,
+						bottom: 0,
+						left: 0,
+						right: 0,
+						minHeight: '100vh',
+						backgroundColor:
+							colorScheme === 'dark'
+								? theme.colors.dark[8]
+								: theme.colors.gray[2],
+					}}
+				>
+					<Outlet />
+				</main>
+			),
+			children: [
+				// public routes
+				{
+					path: '/login',
+					element: <Login />,
+				},
+				// protected routes
+				{
+					path: '/',
+					element: <Root />,
+					children: [
+						{
+							element: <RequireAuth allowedRoles={['authenticated']} />,
+							children: [
+								{
+									path: '/',
+									element: <Home />,
+								},
+							],
+						},
+					],
+				},
+
+				// 404
+				{
+					path: '*',
+					element: <NotFoundPage />,
+				},
+			],
+		},
+	]);
 	return (
-		<MantineProvider theme={theme} defaultColorScheme='light'>
-			<QueryClientProvider client={queryClient}>
-				<AuthProvider>
-					<RouterProvider router={router} />
-				</AuthProvider>
-			</QueryClientProvider>
-		</MantineProvider>
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
+		</QueryClientProvider>
 	);
 }
