@@ -7,6 +7,12 @@ export type ResultsType = {
 	clase_predominante: string;
 	porcentaje_confianza: number;
 	modelo: string;
+	magnitudes: {
+		min: number;
+		max: number;
+		promedio: number;
+		delta: number;
+	};
 	clases_detectadas: {
 		clase: string;
 		porcentaje: number;

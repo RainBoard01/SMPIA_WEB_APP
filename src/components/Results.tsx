@@ -27,8 +27,9 @@ export const ResultContainer = (props: {
 	color: string;
 	title: string;
 	data: string;
+	rip?: boolean;
 }) => {
-	const { color, title, data } = props;
+	const { color, title, data, rip } = props;
 	const { colorScheme } = useMantineColorScheme();
 	return (
 		<Container
@@ -42,11 +43,18 @@ export const ResultContainer = (props: {
 			<Title
 				fw={500}
 				order={4}
-				c={`${color}.${colorScheme === 'dark' ? 0 : 9}`}
+				c={`${rip ? 'red' : color}.${
+					rip ? 9 : colorScheme === 'dark' ? 0 : 9
+				}`}
 			>
 				{title}
 			</Title>
-			<Title order={1} c={`${color}.${colorScheme === 'dark' ? 3 : 7}`}>
+			<Title
+				order={1}
+				c={`${rip ? 'red' : color}.${
+					rip ? 7 : colorScheme === 'dark' ? 3 : 7
+				}`}
+			>
 				{data}
 			</Title>
 		</Container>
@@ -60,6 +68,14 @@ export const Results = (props: {
 	const { data, metadata } = props;
 	const theme = useMantineTheme();
 	const { colorScheme } = useMantineColorScheme();
+
+	const calculateColor = (percentage: number) => {
+		if (percentage > 100) return 'dark';
+		if (percentage > 50) return 'red';
+		if (percentage > 10) return 'yellow';
+		return 'green';
+	};
+
 	return (
 		<Card radius='md' maw='72rem' w='100%' shadow='md' padding={24}>
 			<Stack w='100%' gap='lg'>
@@ -89,13 +105,15 @@ export const Results = (props: {
 						data={`${parseFloat(data.porcentaje_confianza.toFixed(3))}%`}
 					/>
 					<ResultContainer
-						color='gray'
+						rip={data.magnitudes.max > 100}
+						color={calculateColor(data.magnitudes.max)}
 						title='Grado Desbalance'
-						data='no_disponible'
+						data={`${parseFloat(data.magnitudes.max.toFixed(2))}%${
+							data.magnitudes.max > 100 ? '💀' : ''
+						}`}
 					/>
 				</SimpleGrid>
 				<Grid>
-					{/* {!data.clase_predominante.startsWith('bal') && ( */}
 					<Grid.Col
 						span='content'
 						style={{
