@@ -179,36 +179,38 @@ export const Results = (props: {
 									</Table.Tr>
 								</Table.Thead>
 								<Table.Tbody>
-									{data.clases_detectadas.map((el, i) => (
-										<Table.Tr key={i}>
-											<Table.Td>
-												{el.clase.startsWith('bal')
-													? 'Balanceado'
-													: 'Desbalanceado'}
-											</Table.Td>
-											<Table.Td>
-												{el.clase.startsWith('bal')
-													? '-'
-													: el.clase.split('_')[1]}
-											</Table.Td>
-											<Table.Td>
-												<ColorSwatch
-													color={
-														theme.colors[
-															i === 0
-																? theme.primaryColor
-																: Object.keys(theme.colors)[
-																		i < 7 ? i + 7 : i - 5
-																  ]
-														][5]
-													}
-												/>
-											</Table.Td>
-											<Table.Td>{`${parseFloat(
-												el.porcentaje.toFixed(3)
-											)}%`}</Table.Td>
-										</Table.Tr>
-									))}
+									{data.clases_detectadas
+										.sort((a, b) => b.porcentaje - a.porcentaje)
+										.map((el, i) => (
+											<Table.Tr key={i}>
+												<Table.Td>
+													{el.clase.startsWith('bal')
+														? 'Balanceado'
+														: 'Desbalanceado'}
+												</Table.Td>
+												<Table.Td>
+													{el.clase.startsWith('bal')
+														? '-'
+														: el.clase.split('_')[1]}
+												</Table.Td>
+												<Table.Td>
+													<ColorSwatch
+														color={
+															theme.colors[
+																i === 0
+																	? theme.primaryColor
+																	: Object.keys(theme.colors)[
+																			i < 7 ? i + 7 : i - 5
+																	  ]
+															][5]
+														}
+													/>
+												</Table.Td>
+												<Table.Td>{`${parseFloat(
+													el.porcentaje.toFixed(3)
+												)}%`}</Table.Td>
+											</Table.Tr>
+										))}
 								</Table.Tbody>
 							</Table>
 							<Box
@@ -234,17 +236,19 @@ export const Results = (props: {
 									labelsPosition='outside'
 									labelsType='percent'
 									withLabels
-									data={data.clases_detectadas.map((el, i) => ({
-										color: theme.colors[
-											i === 0
-												? theme.primaryColor
-												: Object.keys(theme.colors)[
-														i < 7 ? i + 7 : i - 5
-												  ]
-										][5],
-										value: el.porcentaje,
-										name: el.clase,
-									}))}
+									data={data.clases_detectadas
+										.sort((a, b) => b.porcentaje - a.porcentaje)
+										.map((el, i) => ({
+											color: theme.colors[
+												i === 0
+													? theme.primaryColor
+													: Object.keys(theme.colors)[
+															i < 7 ? i + 7 : i - 5
+													  ]
+											][5],
+											value: el.porcentaje,
+											name: el.clase,
+										}))}
 								/>
 							</Box>
 						</Stack>
@@ -329,7 +333,7 @@ export const Results = (props: {
 											Modelo utilizado:
 										</Title>
 										<Divider orientation='vertical' />
-										<Text>modelo_3_1000.h5</Text>
+										<Text>{data.modelo.split('/')[1]}</Text>
 									</Group>
 								</Stack>
 							</Stack>

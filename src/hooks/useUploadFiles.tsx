@@ -6,6 +6,7 @@ export type ResultsType = {
 	archivo: string;
 	clase_predominante: string;
 	porcentaje_confianza: number;
+	modelo: string;
 	clases_detectadas: {
 		clase: string;
 		porcentaje: number;
