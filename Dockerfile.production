@@ -3,6 +3,9 @@ WORKDIR /app
 COPY . .
 COPY package.json yarn.lock ./
 RUN yarn install
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+RUN echo "VITE_API_URL=$VITE_API_URL"
 RUN yarn build
 
 FROM --platform=linux/arm64 jawg/nginx-spa:stable-alpine AS runner
