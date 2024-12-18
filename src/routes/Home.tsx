@@ -1,11 +1,18 @@
-import { Center, Progress, Stack, Text, useMantineTheme } from '@mantine/core';
+import {
+	Card,
+	Center,
+	Progress,
+	Stack,
+	Text,
+	useMantineTheme,
+} from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { DropzoneCSV } from '../components/DropzoneCSV';
 import { useUploadFiles } from '../hooks/useUploadFiles';
 import { Results } from '../components/Results';
 import { parse } from 'papaparse';
 import { useInterval } from '@mantine/hooks';
-import { Mediciones } from '../components/Mediciones';
+import { ListaAnalisis } from '../components/ListaAnalisis';
 
 export type MetadataType = {
 	filename: string;
@@ -96,9 +103,13 @@ export const Home = () => {
 						</Text>
 					</Stack>
 				)}
-				{results && <Results data={results} metadata={metadata} />}
+				{results && (
+					<Card radius='md' maw='72rem' w='100%' shadow='md' padding={24}>
+						<Results data={results} metadata={metadata} />
+					</Card>
+				)}
 
-				<Mediciones />
+				<ListaAnalisis />
 			</Stack>
 		</Center>
 	);
